@@ -56,12 +56,4 @@ public class TestController {
 			throw new TestsException("Test ID already exists");
 		}
 	}
-	
-	@CrossOrigin
-	@PostMapping("/addcenter")
-	public ResponseEntity<String> addAccount(@Valid @RequestBody DiagnosticCenter diagnosticCenter, BindingResult bindingResult){
-			diagnosticCenterService.addcenter(diagnosticCenter);
-			return new ResponseEntity<String>("Center added successfully", HttpStatus.OK);
-	}
-
 }

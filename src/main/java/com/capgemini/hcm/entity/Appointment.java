@@ -1,6 +1,7 @@
 package com.capgemini.hcm.entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,22 +23,18 @@ public class Appointment {
 	@Id
 	@Column(name = "appointment_Id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointment_seq")
-	@SequenceGenerator(sequenceName = "appointment_seq", initialValue = 011010, allocationSize = 1, name = "appointment_Id")
+	@SequenceGenerator(sequenceName = "appointment_seq", initialValue = 011010, allocationSize = 1, name = "appointment_seq")
 	private Long appointmentId;
 
 	@Column(name = "Appointment_DateAndTime")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDateTime dateAndtime;
+	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date appointmentDate=new Date();
 
 	@Column(name = "approved")
 	private boolean approved;
 
-	@ManyToOne(targetEntity = DiagnosticCenter.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "center_Id", referencedColumnName = "center_Id")
-	private DiagnosticCenter diagnosticCenter;
-
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "userId", referencedColumnName = "userId")
+	@JoinColumn(name = "user_Id", referencedColumnName = "user_Id")
 	private Users users;
 
 	public Long getAppointmentId() {
@@ -48,12 +45,12 @@ public class Appointment {
 		this.appointmentId = appointmentId;
 	}
 
-	public LocalDateTime getDateAndtime() {
-		return dateAndtime;
+	public Date getAppointmentDate() {
+		return appointmentDate;
 	}
 
-	public void setDateAndtime(LocalDateTime dateAndtime) {
-		this.dateAndtime = dateAndtime;
+	public void setAppointmentDate(Date appointmentDate) {
+		this.appointmentDate = appointmentDate;
 	}
 
 	public boolean isApproved() {
@@ -64,29 +61,19 @@ public class Appointment {
 		this.approved = approved;
 	}
 
-	public DiagnosticCenter getDiagnosticCenter() {
-		return diagnosticCenter;
-	}
-
-	public void setDiagnostic_center(DiagnosticCenter diagnosticCenter) {
-		this.diagnosticCenter = diagnosticCenter;
-	}
-
-	public Users getUser() {
+	public Users getUsers() {
 		return users;
 	}
 
-	public void setUser(Users users) {
+	public void setUsers(Users users) {
 		this.users = users;
 	}
 
-	public Appointment(Long appointmentId, LocalDateTime dateAndtime, boolean approved,
-			DiagnosticCenter diagnosticCenter, Users users) {
+	public Appointment(Long appointmentId, Date appointmentDate, boolean approved, Users users) {
 		super();
 		this.appointmentId = appointmentId;
-		this.dateAndtime = dateAndtime;
+		this.appointmentDate = appointmentDate;
 		this.approved = approved;
-		this.diagnosticCenter = diagnosticCenter;
 		this.users = users;
 	}
 
@@ -97,9 +84,9 @@ public class Appointment {
 
 	@Override
 	public String toString() {
-		return "Appointment [appointmentId=" + appointmentId + ", dateAndtime=" + dateAndtime + ", approved=" + approved
-				+ ", diagnosticCenter=" + diagnosticCenter + ", user=" + users + "]";
+		return "Appointment [appointmentId=" + appointmentId + ", appointmentDate=" + appointmentDate + ", approved="
+				+ approved + ", users=" + users + "]";
 	}
+
 	
-	
-}
+	}

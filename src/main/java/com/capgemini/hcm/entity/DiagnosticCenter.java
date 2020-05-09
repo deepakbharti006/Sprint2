@@ -1,6 +1,5 @@
 package com.capgemini.hcm.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,21 +21,25 @@ public class DiagnosticCenter {
 	@Id
 	@Column(name = "center_id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "center_seq")
-	@SequenceGenerator(sequenceName = "center_seq", initialValue = 1000, allocationSize = 1, name = "center_seq")
-	private Integer centerId;
+	@SequenceGenerator(sequenceName = "center_seq", initialValue = 1010, allocationSize = 1, name = "center_seq")
+	private String centerId;
 
 	@Column(name = "centerName")
 	private String centerName;
-	
-	@OneToMany(targetEntity = Tests.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "center_Id", referencedColumnName = "center_Id")
-	private List<Tests> testList=new ArrayList<>();
 
-	public Integer getCenterId() {
+	@OneToMany(targetEntity = Tests.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "center_id", referencedColumnName = "center_id")
+	public List<Tests> listOftests;
+
+	@OneToMany(targetEntity = Appointment.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "center_id", referencedColumnName = "center_id")
+	private List<Appointment> appointment;
+
+	public String getCenterId() {
 		return centerId;
 	}
 
-	public void setCenterId(Integer centerId) {
+	public void setCenterId(String centerId) {
 		this.centerId = centerId;
 	}
 
@@ -48,30 +51,39 @@ public class DiagnosticCenter {
 		this.centerName = centerName;
 	}
 
-	public List<Tests> getTestList() {
-		return testList;
+	public List<Tests> getListOftests() {
+		return listOftests;
 	}
 
-	public void setTestList(List<Tests> testList) {
-		this.testList = testList;
+	public void setListOftests(List<Tests> listOftests) {
+		this.listOftests = listOftests;
 	}
 
-	public DiagnosticCenter(Integer centerId, String centerName, List<Tests> testList) {
+	public List<Appointment> getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(List<Appointment> appointment) {
+		this.appointment = appointment;
+	}
+
+	@Override
+	public String toString() {
+		return "DiagnosticCenter [centerId=" + centerId + ", centerName=" + centerName + ", listOftests=" + listOftests
+				+ ", appointment=" + appointment + "]";
+	}
+
+	public DiagnosticCenter(String centerId, String centerName, List<Tests> listOftests,
+			List<Appointment> appointment) {
 		super();
 		this.centerId = centerId;
 		this.centerName = centerName;
-		this.testList = testList;
+		this.listOftests = listOftests;
+		this.appointment = appointment;
 	}
 
 	public DiagnosticCenter() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public String toString() {
-		return "DiagnosticCenter [centerId=" + centerId + ", centerName=" + centerName + ", testList=" + testList + "]";
-	}
-
-	
 }

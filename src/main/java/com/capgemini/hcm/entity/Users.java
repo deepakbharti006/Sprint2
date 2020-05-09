@@ -1,11 +1,15 @@
 package com.capgemini.hcm.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -14,14 +18,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+
+
 @Entity
 @Table(name = "User_Table")
 public class Users {
 
 	@Id
-	@Column(name = "userId")
+	@Column(name = "user_Id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-	@SequenceGenerator(sequenceName = "user_seq", initialValue = 00, allocationSize = 1, name = "userId")
+	@SequenceGenerator(sequenceName = "user_seq", initialValue = 1, allocationSize = 1, name = "user_seq")
 	private String userId;
 
 	@NotEmpty(message = "user password is mandatory")
@@ -44,6 +50,11 @@ public class Users {
 	@NotEmpty(message = "emailid is mandatory")
 	@Column(name = "emailId")
 	private String emailId;
+	
+	@OneToMany(targetEntity=DiagnosticCenter.class, cascade=CascadeType.ALL)
+	@JoinColumn(name="user_Id",referencedColumnName="user_Id")
+	private List<DiagnosticCenter> centerList;
+
 
 	public String getUserId() {
 		return userId;
@@ -92,14 +103,23 @@ public class Users {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
+	public List<DiagnosticCenter> getCenterList() {
+		return centerList;
+	}
+
+	public void setCenterList(List<DiagnosticCenter> centerList) {
+		this.centerList = centerList;
+	}
+
+	
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userPassword=" + userPassword + ", userName=" + userName + ", contactNo="
-				+ contactNo + ", userRole=" + userRole + ", emailId=" + emailId + "]";
+		return "Users [userId=" + userId + ", userPassword=" + userPassword + ", userName=" + userName + ", contactNo="
+				+ contactNo + ", userRole=" + userRole + ", emailId=" + emailId + ", centerList=" + centerList + "]";
 	}
 
-	public Users(String userId, String userPassword, String userName, Long contactNo, String userRole, String emailId) {
+	public Users(String userId, String userPassword, String userName, Long contactNo, String userRole, String emailId,List<DiagnosticCenter> centerList) {
 		super();
 		this.userId = userId;
 		this.userPassword = userPassword;
@@ -107,8 +127,11 @@ public class Users {
 		this.contactNo = contactNo;
 		this.userRole = userRole;
 		this.emailId = emailId;
+		this.centerList = centerList;
 
 	}
+
+	
 
 	public Users() {
 		super();
