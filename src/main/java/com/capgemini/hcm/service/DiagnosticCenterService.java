@@ -26,15 +26,4 @@ public class DiagnosticCenterService {
 		return diagnosticCenterDao.findAll();
 	}
 
-	@Transactional
-
-	public void deletecenter(DiagnosticCenter diagnosticcenter) {
-		diagnosticCenterDao.delete(diagnosticcenter);
-	}
-
-	@Transactional
-	public DiagnosticCenter updatecenter(DiagnosticCenter diagnosticcenter, String centerId) {
-		return diagnosticCenterDao.save(diagnosticcenter);
-	}
-
 }

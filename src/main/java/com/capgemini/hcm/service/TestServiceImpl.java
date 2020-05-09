@@ -12,24 +12,28 @@ import com.capgemini.hcm.entity.Tests;
 
 @Transactional
 @Service
-public class TestServiceImpl implements TestService{
-	
+public class TestServiceImpl implements TestService {
+
 	@Autowired
 	TestDao testDao;
 
 	@Override
 	public boolean addTest(Tests tests) {
-		Tests testresult=testDao.save(tests);
-		if(testresult!=null) {
+		Tests testresult = testDao.save(tests);
+		if (testresult != null) {
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 
 	@Override
 	public List<Tests> showalltest() {
 		return testDao.findAll();
+	}
+
+	@Override
+	public void deletetest(int testId) {
+		testDao.deleteById(testId);
 	}
 
 }

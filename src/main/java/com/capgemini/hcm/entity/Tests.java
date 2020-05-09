@@ -1,13 +1,16 @@
 package com.capgemini.hcm.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,11 +20,15 @@ public class Tests {
 	@Id
 	@Column(name = "test_Id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "test_seq")
-	@SequenceGenerator(sequenceName = "test_seq", initialValue = 001001, allocationSize = 1, name = "test_Id")
+	@SequenceGenerator(sequenceName = "test_seq", initialValue = 1, allocationSize = 1, name = "test_seq")
 	private Integer testId;
 
 	@Column(name = "testName")
 	private String testName;
+
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinColumn(name = "test_Id", referencedColumnName = "test_Id")
+	private List<Doctor> doctorlist;
 
 	public Integer getTestId() {
 		return testId;
@@ -39,10 +46,19 @@ public class Tests {
 		this.testName = testName;
 	}
 
-	public Tests(Integer testId, String testName) {
+	public List<Doctor> getDoctorlist() {
+		return doctorlist;
+	}
+
+	public void setDoctorlist(List<Doctor> doctorlist) {
+		this.doctorlist = doctorlist;
+	}
+
+	public Tests(Integer testId, String testName, List<Doctor> doctorlist) {
 		super();
 		this.testId = testId;
 		this.testName = testName;
+		this.doctorlist = doctorlist;
 	}
 
 	public Tests() {
@@ -52,9 +68,8 @@ public class Tests {
 
 	@Override
 	public String toString() {
-		return "Tests [testId=" + testId + ", testName=" + testName + "]";
+		return "Tests [testId=" + testId + ", testName=" + testName + ", doctorlist=" + doctorlist + "]";
 	}
 
-	
 	
 }

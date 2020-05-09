@@ -5,14 +5,17 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "DiagnosticCenter")
@@ -21,25 +24,27 @@ public class DiagnosticCenter {
 	@Id
 	@Column(name = "center_id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "center_seq")
-	@SequenceGenerator(sequenceName = "center_seq", initialValue = 1010, allocationSize = 1, name = "center_seq")
-	private String centerId;
+	@SequenceGenerator(sequenceName = "center_seq", initialValue = 100, allocationSize = 1, name = "center_seq")
+	private Integer centerId;
 
 	@Column(name = "centerName")
 	private String centerName;
 
-	@OneToMany(targetEntity = Tests.class, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER,targetEntity = Tests.class, cascade = CascadeType.ALL)
+	@Fetch(value = FetchMode.SUBSELECT)
 	@JoinColumn(name = "center_id", referencedColumnName = "center_id")
 	public List<Tests> listOftests;
 
-	@OneToMany(targetEntity = Appointment.class, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER,targetEntity = Appointment.class, cascade = CascadeType.ALL)
+	@Fetch(value = FetchMode.SUBSELECT)
 	@JoinColumn(name = "center_id", referencedColumnName = "center_id")
 	private List<Appointment> appointment;
 
-	public String getCenterId() {
+	public Integer getCenterId() {
 		return centerId;
 	}
 
-	public void setCenterId(String centerId) {
+	public void setCenterId(Integer centerId) {
 		this.centerId = centerId;
 	}
 
@@ -73,7 +78,7 @@ public class DiagnosticCenter {
 				+ ", appointment=" + appointment + "]";
 	}
 
-	public DiagnosticCenter(String centerId, String centerName, List<Tests> listOftests,
+	public DiagnosticCenter(Integer centerId, String centerName, List<Tests> listOftests,
 			List<Appointment> appointment) {
 		super();
 		this.centerId = centerId;
@@ -86,4 +91,5 @@ public class DiagnosticCenter {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 }

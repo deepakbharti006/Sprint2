@@ -9,4 +9,6 @@ public interface TestService {
 	boolean addTest(Tests tests);
 
 	List<Tests> showalltest();
+	
+	void deletetest(int testId);
 }

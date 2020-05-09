@@ -1,6 +1,5 @@
 package com.capgemini.hcm.entity;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -10,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -23,12 +21,12 @@ public class Appointment {
 	@Id
 	@Column(name = "appointment_Id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointment_seq")
-	@SequenceGenerator(sequenceName = "appointment_seq", initialValue = 011010, allocationSize = 1, name = "appointment_seq")
-	private Long appointmentId;
+	@SequenceGenerator(sequenceName = "appointment_seq", initialValue = 1000, allocationSize = 1, name = "appointment_seq")
+	private Integer appointmentId;
 
 	@Column(name = "Appointment_DateAndTime")
 	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-	private Date appointmentDate=new Date();
+	private Date appointmentDate = new Date();
 
 	@Column(name = "approved")
 	private boolean approved;
@@ -37,11 +35,11 @@ public class Appointment {
 	@JoinColumn(name = "user_Id", referencedColumnName = "user_Id")
 	private Users users;
 
-	public Long getAppointmentId() {
+	public Integer getAppointmentId() {
 		return appointmentId;
 	}
 
-	public void setAppointmentId(Long appointmentId) {
+	public void setAppointmentId(Integer appointmentId) {
 		this.appointmentId = appointmentId;
 	}
 
@@ -69,7 +67,7 @@ public class Appointment {
 		this.users = users;
 	}
 
-	public Appointment(Long appointmentId, Date appointmentDate, boolean approved, Users users) {
+	public Appointment(Integer appointmentId, Date appointmentDate, boolean approved, Users users) {
 		super();
 		this.appointmentId = appointmentId;
 		this.appointmentDate = appointmentDate;
@@ -88,5 +86,4 @@ public class Appointment {
 				+ approved + ", users=" + users + "]";
 	}
 
-	
-	}
+}
