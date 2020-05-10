@@ -17,9 +17,9 @@ public class ApproveAppointmentController {
 	ApproveAppointmentService approveAppointmentService;
 
 	@PutMapping("/approveAppointment")
-	public ResponseEntity<Appointment> approveappointment(@RequestBody Appointment appointment) {
+	public ResponseEntity<String> approveappointment(@RequestBody Appointment appointment) {
 		approveAppointmentService.approveAppointment(appointment);
-		return new ResponseEntity<Appointment>(appointment, HttpStatus.OK);
+		return new ResponseEntity<String>("Appointment approved", HttpStatus.OK);
 	}
 
 }

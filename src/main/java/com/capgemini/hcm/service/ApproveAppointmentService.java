@@ -16,9 +16,9 @@ public class ApproveAppointmentService {
 	AppointmentDao appointmentDao;
 	
 	public void approveAppointment(Appointment appointment) {
-
-//		appointmentDao;
+		
 		appointment.setApproved(true);
+		appointmentDao.save(appointment);
 
 	}
 }

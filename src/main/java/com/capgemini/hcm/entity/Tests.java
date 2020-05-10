@@ -20,7 +20,7 @@ public class Tests {
 	@Id
 	@Column(name = "test_Id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "test_seq")
-	@SequenceGenerator(sequenceName = "test_seq", initialValue = 1, allocationSize = 1, name = "test_seq")
+	@SequenceGenerator(sequenceName = "test_seq", initialValue = 4000, allocationSize = 1, name = "test_seq")
 	private Integer testId;
 
 	@Column(name = "testName")

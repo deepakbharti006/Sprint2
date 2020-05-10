@@ -54,25 +54,6 @@ public class TestController {
 			throw new TestsException("Test ID already exists");
 		}
 	}
-
-//	@DeleteMapping(value = "/deletetest/{id}")
-//	public ResponseEntity<String> deleteTest(@Valid @RequestParam int testId, BindingResult bindingResult)
-//			throws TestsException {
-//		String err = "";
-//		if (bindingResult.hasErrors()) {
-//			List<FieldError> errors = bindingResult.getFieldErrors();
-//			for (FieldError error : errors)
-//				err += error.getDefaultMessage() + "<br/>";
-//			throw new TestsException(err);
-//		}
-//		try {
-//			testService.deletetest(testId);
-//			return new ResponseEntity<String>("Test deleted successfully", HttpStatus.OK);
-//
-//		} catch (DataIntegrityViolationException ex) {
-//			throw new TestsException("Test ID not exists");
-//		}
-//	}
 	
 	@DeleteMapping(value = "/deletetest/{id}")
 	public ResponseEntity<String> deleteTest(@Valid @RequestParam int testId)

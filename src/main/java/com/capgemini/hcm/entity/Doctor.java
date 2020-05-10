@@ -16,7 +16,7 @@ public class Doctor {
 	@Id
 	@Column(name = "doctor_id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "doctor_seq")
-	@SequenceGenerator(sequenceName = "doctor_seq", initialValue = 1010, allocationSize = 1, name = "doctor_seq")
+	@SequenceGenerator(sequenceName = "doctor_seq", initialValue = 3000, allocationSize = 1, name = "doctor_seq")
 	private Integer doctorId;
 
 	@NotEmpty(message = "name is mandatory")

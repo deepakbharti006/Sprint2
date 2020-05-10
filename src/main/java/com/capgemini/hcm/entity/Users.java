@@ -1,5 +1,7 @@
 package com.capgemini.hcm.entity;
 
+import java.math.BigInteger;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "User_Table")
@@ -20,7 +21,7 @@ public class Users {
 	@Id
 	@Column(name = "user_Id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-	@SequenceGenerator(sequenceName = "user_seq", initialValue = 1, allocationSize = 1, name = "user_seq")
+	@SequenceGenerator(sequenceName = "user_seq", initialValue = 5000, allocationSize = 1, name = "user_seq")
 	private Integer userId;
 
 	@NotEmpty(message = "user password is mandatory")
@@ -34,7 +35,7 @@ public class Users {
 
 	@NotNull(message = "contact must be mandatory")
 	@Column(name = "contactNo")
-	private Integer contactNo;
+	private BigInteger contactNo;
 
 	@Column(name = "userRole")
 	private String userRole;
@@ -67,11 +68,11 @@ public class Users {
 		this.userName = userName;
 	}
 
-	public Integer getContactNo() {
+	public BigInteger getContactNo() {
 		return contactNo;
 	}
 
-	public void setContactNo(Integer contactNo) {
+	public void setContactNo(BigInteger contactNo) {
 		this.contactNo = contactNo;
 	}
 
@@ -94,8 +95,8 @@ public class Users {
 	public Users(Integer userId,
 			@NotEmpty(message = "user password is mandatory") @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,14}$") String userPassword,
 			@NotEmpty(message = "user name is mandatory") String userName,
-			@NotNull(message = "contact must be mandatory") @Size(max = 10, message = "number must be of 10 digit") Integer contactNo,
-			String userRole, @NotEmpty(message = "emailid is mandatory") String emailId) {
+			@NotNull(message = "contact must be mandatory") BigInteger contactNo, String userRole,
+			@NotEmpty(message = "emailid is mandatory") String emailId) {
 		super();
 		this.userId = userId;
 		this.userPassword = userPassword;
@@ -115,4 +116,6 @@ public class Users {
 		return "Users [userId=" + userId + ", userPassword=" + userPassword + ", userName=" + userName + ", contactNo="
 				+ contactNo + ", userRole=" + userRole + ", emailId=" + emailId + "]";
 	}
+
+	
 }

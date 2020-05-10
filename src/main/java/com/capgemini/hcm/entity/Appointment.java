@@ -1,6 +1,6 @@
 package com.capgemini.hcm.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,8 +25,8 @@ public class Appointment {
 	private Integer appointmentId;
 
 	@Column(name = "Appointment_DateAndTime")
-	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-	private Date appointmentDate = new Date();
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime appointmentDate;
 
 	@Column(name = "approved")
 	private boolean approved;
@@ -43,11 +43,11 @@ public class Appointment {
 		this.appointmentId = appointmentId;
 	}
 
-	public Date getAppointmentDate() {
+	public LocalDateTime getAppointmentDate() {
 		return appointmentDate;
 	}
 
-	public void setAppointmentDate(Date appointmentDate) {
+	public void setAppointmentDate(LocalDateTime appointmentDate) {
 		this.appointmentDate = appointmentDate;
 	}
 
@@ -67,7 +67,7 @@ public class Appointment {
 		this.users = users;
 	}
 
-	public Appointment(Integer appointmentId, Date appointmentDate, boolean approved, Users users) {
+	public Appointment(Integer appointmentId, LocalDateTime appointmentDate, boolean approved, Users users) {
 		super();
 		this.appointmentId = appointmentId;
 		this.appointmentDate = appointmentDate;
@@ -86,4 +86,5 @@ public class Appointment {
 				+ approved + ", users=" + users + "]";
 	}
 
+	
 }
