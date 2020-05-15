@@ -12,35 +12,29 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @Entity
-@Table(name = "DiagnosticCenter")
 public class DiagnosticCenter {
 
 	@Id
-	@Column(name = "center_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "center_seq")
-	@SequenceGenerator(sequenceName = "center_seq", initialValue = 2000, allocationSize = 1, name = "center_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "centerId_generator")
+	@SequenceGenerator(name = "centerId_generator", initialValue = 1001, allocationSize = 1)
 	private Integer centerId;
-
-	@Column(name = "centerName")
+	
+	@Column(length = 25)
 	private String centerName;
+	
+	@Column(length = 50)
+	private String address;
+	
+	@Column(length = 10)
+	private String contactNo;
 
-	@OneToMany(fetch = FetchType.EAGER,targetEntity = Tests.class, cascade = CascadeType.ALL)
-	@Fetch(value = FetchMode.SUBSELECT)
-	@JoinColumn(name = "center_id", referencedColumnName = "center_id")
-	public List<Tests> listOftests;
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Test.class, fetch = FetchType.EAGER)
+	@JoinColumn(name = "center_no", referencedColumnName = "centerId")
+	private List<Test> test;
 
-	@OneToMany(fetch = FetchType.EAGER,targetEntity = Appointment.class, cascade = CascadeType.ALL)
-	@Fetch(value = FetchMode.SUBSELECT)
-	@JoinColumn(name = "center_id", referencedColumnName = "center_id")
-	private List<Appointment> appointment;
-
-	public Integer getCenterId() {
+	public long getCenterId() {
 		return centerId;
 	}
 
@@ -56,40 +50,48 @@ public class DiagnosticCenter {
 		this.centerName = centerName;
 	}
 
-	public List<Tests> getListOftests() {
-		return listOftests;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setListOftests(List<Tests> listOftests) {
-		this.listOftests = listOftests;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public List<Appointment> getAppointment() {
-		return appointment;
+	public String getContactNo() {
+		return contactNo;
 	}
 
-	public void setAppointment(List<Appointment> appointment) {
-		this.appointment = appointment;
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	public List<Test> getTest() {
+		return test;
+	}
+
+	public void setTest(List<Test> test) {
+		this.test = test;
+	}
+
+	public DiagnosticCenter(Integer centerId, String centerName, String address, String contactNo, List<Test> test) {
+		super();
+		this.centerId = centerId;
+		this.centerName = centerName;
+		this.address = address;
+		this.contactNo = contactNo;
+		this.test = test;
+	}
+
+	public DiagnosticCenter() {
+
 	}
 
 	@Override
 	public String toString() {
-		return "DiagnosticCenter [centerId=" + centerId + ", centerName=" + centerName + ", listOftests=" + listOftests
-				+ ", appointment=" + appointment + "]";
-	}
-
-	public DiagnosticCenter(Integer centerId, String centerName, List<Tests> listOftests,
-			List<Appointment> appointment) {
-		super();
-		this.centerId = centerId;
-		this.centerName = centerName;
-		this.listOftests = listOftests;
-		this.appointment = appointment;
-	}
-
-	public DiagnosticCenter() {
-		super();
-		// TODO Auto-generated constructor stub
+		return "DiagnosticCenter [centerId=" + centerId + ", centerName=" + centerName + ", address=" + address
+				+ ", contactNo=" + contactNo + ", test=" + test + "]";
 	}
 
 }
+

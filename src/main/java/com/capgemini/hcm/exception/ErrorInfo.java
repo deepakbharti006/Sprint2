@@ -1,24 +1,24 @@
 package com.capgemini.hcm.exception;
 
 public class ErrorInfo {
-	private String messgae;
+
+	private String message;
 
 	public ErrorInfo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public ErrorInfo(String messgae) {
+	public ErrorInfo(String message) {
 		super();
-		this.messgae = messgae;
+		this.message = message;
 	}
 
-	public String getMessgae() {
-		return messgae;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setMessgae(String messgae) {
-		this.messgae = messgae;
+	public void setMessage(String message) {
+		this.message = message;
 	}
-
 }
+

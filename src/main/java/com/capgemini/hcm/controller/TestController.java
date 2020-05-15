@@ -1,8 +1,7 @@
 package com.capgemini.hcm.controller;
 
 import java.util.List;
-
-import javax.validation.Valid;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,58 +12,89 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.capgemini.hcm.entity.Tests;
-import com.capgemini.hcm.exception.TestsException;
+import com.capgemini.hcm.dto.TestDto;
+import com.capgemini.hcm.entity.DiagnosticCenter;
+import com.capgemini.hcm.entity.Test;
+import com.capgemini.hcm.exception.TestException;
 import com.capgemini.hcm.service.TestService;
 
+@CrossOrigin
 @RestController
 public class TestController {
 
 	@Autowired
 	TestService testService;
 
-	@CrossOrigin
-	@GetMapping("/viewalltest")
-	public ResponseEntity<List<Tests>> getalltest() {
-		List<Tests> testList = testService.showalltest();
-		return new ResponseEntity<List<Tests>>(testList, HttpStatus.OK);
+	@PostMapping("/addCenter")
+	public boolean addCenter(@RequestBody TestDto testDto) throws TestException {
+		try {
+			testService.addCenter(testDto);
+			return true;
+		} catch (Exception exception) {
+			throw new TestException(exception.getMessage());
+		}
+
 	}
 
-	@CrossOrigin
-	@PostMapping("/addtest")
-	public ResponseEntity<String> addAccount(@Valid @RequestBody Tests tests, BindingResult bindingResult)
-			throws TestsException {
+//	@PostMapping("/addTest/{centerId}")
+//	public String addTest(@PathVariable Integer centerId, @RequestBody Test test) throws TestException {
+//		try {
+//			return testService.addTest(centerId, test);
+//		} catch (Exception exception) {
+//			throw new TestException(exception.getMessage());
+//		}
+//	}
+	@PostMapping("/addTest/{centerId}")
+	public ResponseEntity<String> addTest(@PathVariable Integer centerId, @RequestBody Test test,
+			BindingResult bindingResult) throws TestException {
 		String err = "";
 		if (bindingResult.hasErrors()) {
 			List<FieldError> errors = bindingResult.getFieldErrors();
 			for (FieldError error : errors)
 				err += error.getDefaultMessage() + "<br/>";
-			throw new TestsException(err);
+			throw new TestException(err);
 		}
 		try {
-			testService.addTest(tests);
-			return new ResponseEntity<String>("Test added successfully", HttpStatus.OK);
+			testService.addTest(centerId, test);
+			return new ResponseEntity<String>("Test added in center successfully", HttpStatus.OK);
 
 		} catch (DataIntegrityViolationException ex) {
-			throw new TestsException("Test ID already exists");
+			throw new TestException("Test ID already exists");
 		}
 	}
-	
-	@DeleteMapping(value = "/deletetest/{id}")
-	public ResponseEntity<String> deleteTest(@Valid @RequestParam int testId)
-			throws TestsException {
+
+	@DeleteMapping("/removeTest/{testId}")
+	public ResponseEntity<String> removeTest(@PathVariable Integer testId) throws TestException {
 		try {
-			testService.deletetest(testId);
+			testService.removeTest(testId);
 			return new ResponseEntity<String>("Test deleted successfully", HttpStatus.OK);
+		} catch (Exception exception) {
+			throw new TestException(exception.getMessage());
+		}
 
-		} catch (DataIntegrityViolationException ex) {
-			throw new TestsException("Test ID not exists");
+	}
+
+	@GetMapping("/centers")
+	public ResponseEntity<List<DiagnosticCenter>> getAllCenter() throws TestException {
+		try {
+			List<DiagnosticCenter> diagnosticCenterList = testService.getAllCenter();
+			return new ResponseEntity<List<DiagnosticCenter>>(diagnosticCenterList, HttpStatus.OK);
+		} catch (Exception exception) {
+			throw new TestException(exception.getMessage());
 		}
 	}
 
+	@GetMapping("/center/{centerId}")
+	public Optional<DiagnosticCenter> getCenter(@PathVariable Integer centerId) throws TestException {
+		try {
+			return testService.getCenter(centerId);
+		} catch (Exception exception) {
+			throw new TestException(exception.getMessage());
+		}
+	}
 }

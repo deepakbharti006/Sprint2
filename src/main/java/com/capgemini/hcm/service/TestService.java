@@ -1,14 +1,68 @@
 package com.capgemini.hcm.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import com.capgemini.hcm.entity.Tests;
+import javax.transaction.Transactional;
 
-public interface TestService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-	boolean addTest(Tests tests);
+import com.capgemini.hcm.dao.DiagnosticCenterDao;
+import com.capgemini.hcm.dao.TestDao;
+import com.capgemini.hcm.dao.TestDao1;
+import com.capgemini.hcm.dto.TestDto;
+import com.capgemini.hcm.entity.DiagnosticCenter;
+import com.capgemini.hcm.entity.Test;
+import com.capgemini.hcm.exception.TestException;
 
-	List<Tests> showalltest();
-	
-	void deletetest(int testId);
+@Service
+@Transactional
+public class TestService {
+
+	@Autowired
+	TestDao testDao;
+	@Autowired
+	TestDao1 testDao1;
+	@Autowired
+	DiagnosticCenterDao diagnosticCenterDao;
+
+	public boolean addCenter(TestDto testDto) throws TestException {
+		if (testDao.addCenter(testDto))
+			return true;
+		else
+			throw new TestException("Center not added.");
+	}
+
+	public String addTest(Integer centerId, Test test) throws TestException {
+		if (testDao.addTest(centerId, test))
+			return "Test Added Successfully";
+		else
+			throw new TestException("Test already exists");
+	}
+
+	public String removeTest(Integer testId) throws TestException {
+		if (testDao.removeTest(testId))
+			return "Test Removed";
+		else
+			throw new TestException("Test not found.");
+
+	}
+
+	public List<DiagnosticCenter> getAllCenter() throws TestException {
+		if(diagnosticCenterDao.findAll() != null)
+			return diagnosticCenterDao.findAll();
+		else
+			throw new TestException("Diagnostic Centers not present. ");
+	}
+
+	public Optional<DiagnosticCenter> getCenter(Integer centerId) throws TestException {
+		if(diagnosticCenterDao.findById(centerId)!=null) {
+			return diagnosticCenterDao.findById(centerId);
+		}
+		else {
+			throw new TestException("Diagnostic Center not found.");
+		}
+	}
+
 }
