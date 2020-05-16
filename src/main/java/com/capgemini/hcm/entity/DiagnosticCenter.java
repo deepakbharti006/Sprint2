@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 public class DiagnosticCenter {
 
@@ -23,18 +26,19 @@ public class DiagnosticCenter {
 	
 	@Column(length = 25)
 	private String centerName;
-	
-	@Column(length = 50)
-	private String address;
-	
-	@Column(length = 10)
-	private String contactNo;
 
 	@OneToMany(cascade = CascadeType.ALL, targetEntity = Test.class, fetch = FetchType.EAGER)
 	@JoinColumn(name = "center_no", referencedColumnName = "centerId")
 	private List<Test> test;
+	
+	@OneToMany(fetch = FetchType.EAGER,targetEntity = TestAppointment.class, cascade = CascadeType.ALL)
+	@Fetch(value = FetchMode.SUBSELECT)
+	@JoinColumn(name = "center_id", referencedColumnName = "centerId")
+	private List<TestAppointment> appointment;
 
-	public long getCenterId() {
+	
+
+	public Integer getCenterId() {
 		return centerId;
 	}
 
@@ -50,22 +54,6 @@ public class DiagnosticCenter {
 		this.centerName = centerName;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getContactNo() {
-		return contactNo;
-	}
-
-	public void setContactNo(String contactNo) {
-		this.contactNo = contactNo;
-	}
-
 	public List<Test> getTest() {
 		return test;
 	}
@@ -74,23 +62,32 @@ public class DiagnosticCenter {
 		this.test = test;
 	}
 
-	public DiagnosticCenter(Integer centerId, String centerName, String address, String contactNo, List<Test> test) {
+	public List<TestAppointment> getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(List<TestAppointment> appointment) {
+		this.appointment = appointment;
+	}
+
+	
+	public DiagnosticCenter(Integer centerId, String centerName, List<Test> test, List<TestAppointment> appointment) {
 		super();
 		this.centerId = centerId;
 		this.centerName = centerName;
-		this.address = address;
-		this.contactNo = contactNo;
 		this.test = test;
+		this.appointment = appointment;
 	}
 
 	public DiagnosticCenter() {
 
 	}
 
+	
 	@Override
 	public String toString() {
-		return "DiagnosticCenter [centerId=" + centerId + ", centerName=" + centerName + ", address=" + address
-				+ ", contactNo=" + contactNo + ", test=" + test + "]";
+		return "DiagnosticCenter [centerId=" + centerId + ", centerName=" + centerName + ", test=" + test
+				+ ", appointment=" + appointment + "]";
 	}
 
 }

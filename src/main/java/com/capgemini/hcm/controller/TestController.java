@@ -41,14 +41,6 @@ public class TestController {
 
 	}
 
-//	@PostMapping("/addTest/{centerId}")
-//	public String addTest(@PathVariable Integer centerId, @RequestBody Test test) throws TestException {
-//		try {
-//			return testService.addTest(centerId, test);
-//		} catch (Exception exception) {
-//			throw new TestException(exception.getMessage());
-//		}
-//	}
 	@PostMapping("/addTest/{centerId}")
 	public ResponseEntity<String> addTest(@PathVariable Integer centerId, @RequestBody Test test,
 			BindingResult bindingResult) throws TestException {
@@ -68,15 +60,26 @@ public class TestController {
 		}
 	}
 
-	@DeleteMapping("/removeTest/{testId}")
-	public ResponseEntity<String> removeTest(@PathVariable Integer testId) throws TestException {
+//	@DeleteMapping("/removeTest/{testId}")
+//	public ResponseEntity<String> removeTest(@PathVariable Integer testId) throws TestException {
+//		try {
+//			testService.removeTest(testId);
+//			return new ResponseEntity<String>("Test deleted successfully", HttpStatus.OK);
+//		} catch (Exception exception) {
+//			throw new TestException(exception.getMessage());
+//		}
+//
+//	}
+	@DeleteMapping(value = "/removeTest/{testId}")
+	public ResponseEntity<String> removeTest(@PathVariable Integer testId)
+			throws TestException {
 		try {
 			testService.removeTest(testId);
 			return new ResponseEntity<String>("Test deleted successfully", HttpStatus.OK);
+
 		} catch (Exception exception) {
 			throw new TestException(exception.getMessage());
 		}
-
 	}
 
 	@GetMapping("/centers")

@@ -41,13 +41,9 @@ public class TestService {
 			throw new TestException("Test already exists");
 	}
 
-	public String removeTest(Integer testId) throws TestException {
-		if (testDao.removeTest(testId))
-			return "Test Removed";
-		else
-			throw new TestException("Test not found.");
-
-	}
+	public void removeTest(Integer testId) {
+		testDao1.deleteById(testId);
+		}
 
 	public List<DiagnosticCenter> getAllCenter() throws TestException {
 		if(diagnosticCenterDao.findAll() != null)

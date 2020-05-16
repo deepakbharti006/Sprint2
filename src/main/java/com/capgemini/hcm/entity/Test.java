@@ -18,7 +18,7 @@ public class Test {
 	@Column(length = 25)
 	private String testName;
 
-	public long getTestId() {
+	public Integer getTestId() {
 		return testId;
 	}
 
