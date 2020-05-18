@@ -18,9 +18,9 @@ public class AppointmentController {
 	AppointmentService approveAppointmentService;
 
 	@PutMapping("/approveAppointment/{testAppointmentId}")
-	public ResponseEntity<String> approveappointment(@RequestBody TestAppointment appointment, @PathVariable Integer testAppointmentId) {
-		appointment.setTestAppointmentId(testAppointmentId);
-		approveAppointmentService.approveAppointment(appointment);
+	public ResponseEntity<String> approveappointment(@RequestBody TestAppointment testappointment, @PathVariable Integer testAppointmentId) {
+		testappointment.setTestAppointmentId(testAppointmentId);
+		approveAppointmentService.approveAppointment(testappointment);
 		return new ResponseEntity<String>("Appointment approved", HttpStatus.OK);
 	}
 }

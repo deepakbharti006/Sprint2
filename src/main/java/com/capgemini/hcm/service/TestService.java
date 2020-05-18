@@ -27,8 +27,9 @@ public class TestService {
 	@Autowired
 	DiagnosticCenterDao diagnosticCenterDao;
 
-	public boolean addCenter(TestDto testDto) throws TestException {
-		if (testDao.addCenter(testDto))
+	public boolean addCenter(DiagnosticCenter diagnosticCenter) throws TestException {
+	
+		if (diagnosticCenterDao.save(diagnosticCenter) != null)
 			return true;
 		else
 			throw new TestException("Center not added.");

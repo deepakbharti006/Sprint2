@@ -31,12 +31,12 @@ public class TestController {
 	TestService testService;
 
 	@PostMapping("/addCenter")
-	public boolean addCenter(@RequestBody TestDto testDto) throws TestException {
+	public ResponseEntity<String> addCenter(@RequestBody DiagnosticCenter diagnosticCenter) throws TestException {
 		try {
-			testService.addCenter(testDto);
-			return true;
+			testService.addCenter(diagnosticCenter);
+			return new ResponseEntity<String>("Center added successfully", HttpStatus.OK);
 		} catch (Exception exception) {
-			throw new TestException(exception.getMessage());
+			throw new TestException("Center ID already exists");
 		}
 
 	}
