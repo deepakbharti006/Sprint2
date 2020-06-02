@@ -58,6 +58,9 @@ public class TestAppointment {
 	public void setApproved(boolean approved) {
 		this.approved = approved;
 	}
+	public boolean getApproved() {
+		return this.approved;
+	}
 
 	public Users getUsers() {
 		return users;
